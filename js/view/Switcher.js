@@ -19,11 +19,7 @@ app.view.Switcher = Backbone.View.extend({
   },
   initialize: function() {
     this.template = _.template($('#switcher').html());
-    var totalHours = this.model.get('total');
-    this.$el.append(this.template({
-      totalHours: totalHours,
-      unit: 'sec'
-    }));
+    this.$el.append(this.template(this.model.readableTimeWithUnit()));
     var order = this.model.get('order');
     this.$el.addClass('task-order-' + order);
     if (order === 1) {

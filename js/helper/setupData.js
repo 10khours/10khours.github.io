@@ -19,7 +19,7 @@ function setupData() {
   localStorage.clear();
   var collection = new app.collection.Tasks();
   collection.fetch();
-  collection.create(generateRecords('Painting', 1, [20, 50, 100, 300, 400]));
+  collection.create(generateRecords('Painting', 1, [2000, 5000, 10000, 30000, 40000]));
   collection.create(generateRecords('Guitar', 2, [50, 200, 210, 220, 230, 300]));
   collection.create(generateRecords('Writing', 3, [100, 150, 200, 250, 300]));
 }

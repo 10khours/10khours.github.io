@@ -2,10 +2,11 @@ app.view.Chart = Backbone.View.extend({
   className: 'chart',
   render: function() {
     var labels = [];
-    var dataInDataSets = [];
-    _.each(this.model.get('records'), function(record) {
+    var dataInDataSets = this.model.readableRecords();
+    var records = this.model.get('records');
+
+    _.each(records, function(record) {
       labels.push(moment(record.date).format('MM-DD'));
-      dataInDataSets.push(record.time);
     });
     var color = app.colors[this.model.get('order') - 1];
     var data = {
@@ -21,22 +22,26 @@ app.view.Chart = Backbone.View.extend({
       ]
     };
 
-    if(dataInDataSets.length === 1) {
+    var scaleSteps = 5;
+    var scaleTotal = (Math.floor(_.last(dataInDataSets) / 500) + 1) * 500;
+    var scaleStepWidth = scaleTotal / scaleSteps;
+
+    if (dataInDataSets.length === 1) {
       this._chart.Bar(data, {
         pointDot: false,
         scaleOverride: true,
-        scaleSteps: 5,
-        scaleStepWidth: 20,
+        scaleSteps: scaleSteps,
+        scaleStepWidth: scaleStepWidth,
         scaleStartValue: 0,
         barValueSpacing: 200
       });
     }
-    else {
+    else if (dataInDataSets.length > 1) {
       this._chart.Line(data, {
         pointDot: false,
         scaleOverride: true,
-        scaleSteps: 5,
-        scaleStepWidth: 100,
+        scaleSteps: scaleSteps,
+        scaleStepWidth: scaleStepWidth,
         scaleStartValue: 0
       });
     }
