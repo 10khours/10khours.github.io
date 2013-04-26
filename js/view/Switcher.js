@@ -8,6 +8,7 @@ app.view.Switcher = Backbone.View.extend({
     if (this.$el.hasClass('active')) {
       return;
     }
+    _gaq.push(['_trackEvent', 'switch task']);
     this.$el.addClass('active');
     app.Event.trigger(app.Event.Switch, this.model);
   },

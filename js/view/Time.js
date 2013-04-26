@@ -7,6 +7,7 @@ app.view.Time = Backbone.View.extend({
   },
   stopTask: function() {
     if (!this._isActive) return;
+    _gaq.push(['_trackEvent', 'stop task']);
     this._isActive = false;
     this.model.stop(moment());
     this.model.save();
@@ -18,6 +19,7 @@ app.view.Time = Backbone.View.extend({
   },
   startTask: function(model) {
     if (this._isActive) return;
+    _gaq.push(['_trackEvent', 'start task']);
     this._isActive = true;
     this.$el.html(this.template(model.attributes));
     this.$el.addClass('task-order-' + model.get('order'));

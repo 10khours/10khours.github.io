@@ -17,6 +17,7 @@ app.view.AddTask = Backbone.View.extend({
   addTask: function(event) {
     event.preventDefault();
     var name = this.$el.find('.new-task-name').val();
+    _gaq.push(['_trackEvent', 'add task', name]);
     if (name !== '') {
       this.collection.create({
         name: name,
@@ -31,6 +32,7 @@ app.view.AddTask = Backbone.View.extend({
     this.$el.find('.new-task-name').val('');
   },
   toAddTask: function() {
+    _gaq.push(['_trackEvent', 'to add task']);
     this.$el.find('form').show();
     this.$el.find('.add-task-title').hide();
     this.$el.find('.add-task-markup').hide();
