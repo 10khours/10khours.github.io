@@ -8,6 +8,15 @@
   <link rel="apple-touch-icon" href="logo-icon.png" />
   <link rel="apple-touch-icon" sizes="114x114" href="logo-icon-114x114.png" />
   <link rel="stylesheet" href="css/screen.css"/>
+  <script>
+    var webappCache = window.applicationCache;
+
+    function updateCache() {
+      webappCache.swapCache();
+    }
+
+    webappCache.addEventListener("updateready", updateCache, false);
+  </script>
 </head>
 <body class="app">
 

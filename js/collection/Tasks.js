@@ -30,6 +30,18 @@
         task.save();
       });
     },
+
+    hasRecords: function() {
+      var hasRecords = false;
+      this.each(function(task) {
+        if (task.get('records').length > 0) {
+          hasRecords = true;
+          return;
+        }
+      });
+      return hasRecords;
+    },
+
     create: function(model, options) {
       var _model = model;
       if(!_model) {

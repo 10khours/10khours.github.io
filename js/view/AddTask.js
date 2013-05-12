@@ -30,6 +30,7 @@ app.view.AddTask = Backbone.View.extend({
     this.$el.find('.add-task-title').show();
     this.$el.find('.add-task-markup').show();
     this.$el.find('.new-task-name').val('');
+    app.Event.trigger(app.Event.AddTask);
   },
   toAddTask: function() {
     _gaq.push(['_trackEvent', 'to add task']);

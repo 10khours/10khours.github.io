@@ -8,6 +8,8 @@ app.view.Home = Backbone.View.extend({
   switchIn: function() {
     this.$el.show();
     this._isActive = true;
+    this.$el.find('.guide').remove();
+    this.$el.append('<p class="guide state-guide">横置手机查看进度！（请打开重力感应）</p>');
   },
   onRotate: function(orientation) {
     if (Math.abs(orientation) === 90 && this.$el.is(':visible')) {
@@ -15,6 +17,9 @@ app.view.Home = Backbone.View.extend({
     }
     else if (orientation === 0 && this._isActive) {
       this.$el.show();
+    }
+    if (localStorage.getItem('hasShowState') === 'true') {
+      this.$el.find('.guide').remove();
     }
   },
   initialize: function() {
@@ -28,5 +33,20 @@ app.view.Home = Backbone.View.extend({
     this.listenTo(app.Event, app.Event.TaskStart, this.switchOut);
     this.listenTo(app.Event, app.Event.TaskStop, this.switchIn);
     this.listenTo(app.Event, app.Event.Rotate, this.onRotate);
+
+    if (this.collection.length == 0) {
+      this.$el.append('<p class="guide add-guide">你希望通过一万小时的练习成为哪个领域的专家？点击添加！</p>');
+    }
+    else if (!this.collection.hasRecords()) {
+      this.$el.append('<p class="guide count-guide">点击开始计时！</p>');
+    }
+    else if (!localStorage.getItem('hasShowState')) {
+      this.$el.append('<p class="guide state-guide">横置手机查看进度！（请打开重力感应）</p>');
+    }
+
+    this.listenTo(app.Event, app.Event.AddTask, function() {
+      this.$el.find('.guide').remove();
+      this.$el.append('<p class="guide count-guide">点击开始计时！</p>');
+    });
   }
 });

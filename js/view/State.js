@@ -23,6 +23,7 @@ app.view.State = Backbone.View.extend({
       model: firstTask
     });
     this.$el.append(chartView.$el);
+    localStorage.setItem('hasShowState', 'true');
   },
   initialize: function() {
     this.$el.hide();
