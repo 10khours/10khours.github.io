@@ -9,7 +9,9 @@ app.view.Home = Backbone.View.extend({
     this.$el.show();
     this._isActive = true;
     this.$el.find('.guide').remove();
-    this.$el.append('<p class="guide state-guide">横置手机查看进度！（请打开重力感应）</p>');
+    if (!localStorage.getItem('hasShowState') && isFinite(orientation)) {
+      this.$el.append('<p class="guide state-guide">横置手机查看进度！（请打开重力感应）</p>');
+    }
   },
   onRotate: function(orientation) {
     if (Math.abs(orientation) === 90 && this.$el.is(':visible')) {
@@ -40,13 +42,27 @@ app.view.Home = Backbone.View.extend({
     else if (!this.collection.hasRecords()) {
       this.$el.append('<p class="guide count-guide">点击开始计时！</p>');
     }
-    else if (!localStorage.getItem('hasShowState')) {
+    else if (!localStorage.getItem('hasShowState') && isFinite(orientation)) {
       this.$el.append('<p class="guide state-guide">横置手机查看进度！（请打开重力感应）</p>');
     }
 
     this.listenTo(app.Event, app.Event.AddTask, function() {
       this.$el.find('.guide').remove();
+      this.$el.find('.check-process').remove();
       this.$el.append('<p class="guide count-guide">点击开始计时！</p>');
+      if (!isFinite(window.orientation)) {
+        this.$el.append('<button class="check-process">Check Process</button>');
+        this.$el.find('.check-process').on('click', function() {
+          app.Event.trigger(app.Event.Rotate, 90);
+        });
+      }
     });
+
+    if (!isFinite(window.orientation)) {
+      this.$el.append('<button class="check-process">Check Process</button>');
+      this.$el.find('.check-process').on('click', function() {
+        app.Event.trigger(app.Event.Rotate, 90);
+      });
+    }
   }
 });
