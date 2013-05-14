@@ -18,6 +18,16 @@ app.Manager = (function() {
   };
 
   manager.prototype.loadTemplates = function() {
+    if (navigator.userAgent.match(/iPhone/i) && !localStorage.getItem('hasShowGuideImage')) {
+      var guideImage = $('<div class="guide-overlay"><img class="guide-image" src="guide.png"></div>');
+      guideImage.on('click', function() {
+        guideImage.hide();
+      });
+      $('.app').append(guideImage);
+      localStorage.setItem('hasShowGuideImage', 'true');
+    }
+
+
     var mainView = this.mainView;
     $.get('template/main.html', function(template) {
       mainView.setTemplate(template);
